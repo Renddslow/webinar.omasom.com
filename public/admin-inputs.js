@@ -1,16 +1,12 @@
-const css = (s) => {
-  const sheet = new CSSStyleSheet();
-  s.map((rule) => rule.split("\n\n"))
-    .flat()
-    .forEach((rule) => sheet.insertRule(rule));
-  return sheet;
-};
-
 class AdminInputs extends HTMLElement {
   shadowRoot;
+  _internals;
+  static formAssociated = true;
   constructor() {
     super();
-    this.shadowRoot = this.attachShadow({ mode: "open" });
+    this.shadowRoot = this.attachShadow({ mode: "open", delegatesFocus: true });
+    this._internals = this.attachInternals();
+    this.handleInput = this.handleInput.bind(this);
     this.render = this.render.bind(this);
     this.shadowRoot.adoptedStyleSheets.push(css`
       * {
@@ -65,6 +61,9 @@ class AdminInputs extends HTMLElement {
   }
 
   async connectedCallback() {
+    const input = this.shadowRoot.querySelector("input");
+    this._internals.setValidity(input.validity, input.validationMessage, input);
+    this._internals.setFormValue(input.value);
     this.render();
   }
 
@@ -72,6 +71,27 @@ class AdminInputs extends HTMLElement {
     if (oldValue !== newValue) {
       this.render();
     }
+  }
+
+  checkValidity() {
+    return this._internals.checkValidity();
+  }
+
+  reportValidity() {
+    return this._internals.reportValidity();
+  }
+
+  get validity() {
+    return this._internals.validity;
+  }
+
+  get validationMessage() {
+    return this._internals.validationMessage;
+  }
+
+  handleInput(e) {
+    const value = e.target.value;
+    this._internals.setFormValue(value);
   }
 
   render() {
@@ -99,6 +119,8 @@ class AdminInputs extends HTMLElement {
     const helptext = this.getAttribute("helptext");
     const helptextEl = this.shadowRoot.querySelector(".label p");
     helptextEl.innerText = helptext;
+
+    input.addEventListener("keydown", this.handleInput);
   }
 }
 

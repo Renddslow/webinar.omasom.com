@@ -5,6 +5,15 @@
         <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            const css = (s) => {
+                const sheet = new CSSStyleSheet();
+                s.map((rule) => rule.split("\n\n"))
+                    .flat()
+                    .forEach((rule) => sheet.insertRule(rule));
+                return sheet;
+            };
+        </script>
         <style>
             * {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
@@ -81,33 +90,40 @@
             <form action="/admin/webinars/<%= updateId %>" method="post">
                 <div class="card">
                     <div class="row">
-                        <admin-form-input
-                                label="Title"
-                                value="<%= values.title %>"
-                                helptext="The title of the session which will be presented on the landing page."
-                        ></admin-form-input>
+                        <div class="form-control">
+                            <div class="label">
+                                <label for="title">Title</label>
+                                <p>The title of the session which will be presented on the landing page.</p>
+                            </div>
+                            <input type="text" name="title" id="title" value="<%= values.title %>">
+                        </div>
                     </div>
                     <div class="row">
-                        <admin-form-input
-                                label="Description"
-                                type="textarea"
-                                value="<%= values.description %>"
-                                helptext="A strong description of the session which will be presented on the landing page and social media."
-                        ></admin-form-input>
+                        <div class="form-control">
+                            <div class="label">
+                                <label for="description">Description</label>
+                                <p>A strong description of the session which will be presented on the landing page and social media.</p>
+                            </div>
+                            <textarea rows="6" name="description" id="description"><%= values.description %></textarea>
+                        </div>
                     </div>
                     <div class="row">
-                        <admin-form-input
-                                label="Meeting Link"
-                                value="<%= values.meeting_link %>"
-                                helptext="A Zoom or Google Meet link that will host the webinar."
-                        ></admin-form-input>
+                        <div class="form-control">
+                            <div class="label">
+                                <label for="meeting-link">Meeting Link</label>
+                                <p>A Zoom or Google Meet link that will host the webinar.</p>
+                            </div>
+                            <input type="text" name="meeting-link" id="meeting-link" value="<%= values.meeting_link %>">
+                        </div>
                     </div>
                     <div class="row">
-                        <admin-form-input
-                                label="Start Time"
-                                value="<%= values.starts_at %>"
-                                helptext="The start date and time of the event."
-                        ></admin-form-input>
+                        <div class="form-control">
+                            <div class="label">
+                                <label for="start-time">Start Time</label>
+                                <p>The start date and time of the event.</p>
+                            </div>
+                            <input type="text" name="start-time" id="start-time" value="<%= values.starts_at %>">
+                        </div>
                     </div>
                 </div>
                 <% if (updateId !== 'new') { %>
@@ -119,5 +135,5 @@
             </form>
         </section>
     </body>
-    <script src="/admin-inputs.js"></script>
+    <script src="/handle-form.js"></script>
 </html>
