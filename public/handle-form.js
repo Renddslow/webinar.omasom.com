@@ -1,25 +1,33 @@
-const getPath = (title, image, starts_at) => {
+const getFolder = (title, image, starts_at) => {
   const date = new Date(starts_at);
-  const [ext] = image.name.split(".").slice(-1);
   const slug = title.split(":")[0].replace(/\s+/g, "-").toLowerCase();
   const dateFolder = `${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`;
-  return `${slug}/${dateFolder}/webinar_header.${ext}`;
+  return `${slug}/${dateFolder}`;
 };
 
-const uploadImage = async (file, src) => {
-  return new Promise((resolve) => {
+const uploadImage = async (file, folder) => {
+  const { token, signature, expire } = await fetch(
+    "/admin/utils/upload-key",
+  ).then((r) => r.json());
+  const [ext] = file.name.split(".").slice(-1);
+
+  await new Promise((resolve) => {
     window.imageKit.upload(
       {
         file,
-        src,
+        folder,
+        fileName: `webinar_header.${ext}`,
         tags: ["webinar"],
+        token,
+        signature,
+        expire,
       },
       (err, result) => {
-        console.log(err);
         resolve(result);
       },
     );
   });
+  return `/${folder}/webinar_header.${ext}`;
 };
 
 (() => {
@@ -27,26 +35,20 @@ const uploadImage = async (file, src) => {
     e.preventDefault();
     const form = new FormData(e.target);
     const payload = Array.from(form.keys()).reduce((acc, key) => {
-      const value = form.get(key);
-      // dot-prop set
-      if (key.includes(".")) {
-        const [first, ...rest] = key.split(".");
-        acc[first] = { ...acc[first], [rest.join(".")]: value };
-      } else {
-        acc[key] = value;
-      }
+      acc[key] = form.get(key);
+      try {
+        const date = new Date(acc[key]);
+        acc[key] = date instanceof Date ? date.toISOString() : acc[key];
+      } catch (e) {}
       return acc;
     }, {});
 
     if (payload.image && payload.image instanceof File) {
-      const imageUrl = window.imageKit.url({
-        path: getPath(payload.title, payload.image, payload.starts_at),
-        transformation: [{ width: 550, height: 300, crop: true }],
-      });
-      await uploadImage(payload.image, imageUrl);
-      payload.image = imageUrl;
+      const folder = getFolder(payload.title, payload.image, payload.starts_at);
+      payload.image = await uploadImage(payload.image, folder);
     }
-    fetch(e.target.action, {
+
+    const id = await fetch(e.target.action, {
       method: e.target.method,
       headers: {
         "Content-Type": "application/json",

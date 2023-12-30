@@ -2,6 +2,7 @@ import polka from "polka";
 import sirv from "sirv";
 import compression from "compression";
 import bodyParser from "body-parser";
+import crypto from "crypto";
 
 import { setupDatabase } from "./middleware/setup-database";
 import { getWebinar } from "./controllers/get-webinar";
@@ -10,6 +11,7 @@ import { createWebinarView } from "./views/create-webinar";
 import { createWebinar } from "./controllers/create-webinar";
 
 const PORT = process.env.PORT || 3000;
+const IMAGE_KIT_KEY = process.env.IMAGE_KIT_KEY || "";
 
 const app = polka().use(
   (req, res, next) => {
@@ -30,30 +32,46 @@ const app = polka().use(
   notFound,
 );
 
-app.get("/admin", (req, res) => {});
-app.get("/admin/webinars", (req, res) => {});
-app.get("/admin/webinars/new", async (_, res) => {
-  const view = await createWebinarView();
-  res.end(view);
-});
-app.post("/admin/webinars/new", async (req, res) => {
-  await createWebinar(req.body, req.context);
-  res.json({ ok: true });
-});
-app.get("/admin/webinars/:id", (req, res) => {});
+// Admin
+app
+  .get("/admin", (req, res) => {})
+  .get("/admin/webinars", (req, res) => {})
+  .get("/admin/webinars/new", async (_, res) => {
+    const view = await createWebinarView();
+    res.end(view);
+  })
+  .post("/admin/webinars/new", async (req, res) => {
+    await createWebinar(req.body, req.context);
+    res.json({ ok: true });
+  })
+  .get("/admin/webinars/:id", (req, res) => {})
+  .get("/admin/utils/upload-key", (req, res) => {
+    const token = crypto.randomUUID();
+    const expire = Date.now() / 1000 + 60 * 5;
+    const signature = crypto
+      .createHmac("sha1", IMAGE_KIT_KEY)
+      .update(token + expire)
+      .digest("hex");
+    res.json({
+      token,
+      expire,
+      signature,
+    });
+  });
 
-app.get("/w/:id", async (req, res) => {
-  console.log(req.params);
-  const page = await getWebinar(req.params.id, req.context);
-  if (!page) {
-    return res.notFound();
-  }
-  res.end(page);
-});
-
-app.get("/w/:id/meet", (req, res) => {
-  res.end("meet");
-});
+// Public
+app
+  .get("/w/:id", async (req, res) => {
+    console.log(req.params);
+    const page = await getWebinar(req.params.id, req.context);
+    if (!page) {
+      return res.notFound();
+    }
+    res.end(page);
+  })
+  .get("/w/:id/meet", (req, res) => {
+    res.end("meet");
+  });
 // app.get("*", (req, res) => {
 //   console.log("404");
 //   return res.notFound();

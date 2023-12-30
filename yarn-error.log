@@ -1,0 +1,59 @@
+Arguments: 
+  /Users/matt.mcelwee/.nvm/versions/node/v18.17.0/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js add dotenv
+
+PATH: 
+  /Users/matt.mcelwee/Library/pnpm:/Users/matt.mcelwee/.nvm/versions/node/v18.17.0/bin:/opt/local/bin:/opt/local/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/gbdk/:/usr/local/go/bin:/Users/matt.mcelwee/.cargo/bin:/Users/matt.mcelwee/.rover/bin:/opt/local/bin:/opt/local/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Users/matt.mcelwee/repos/webinar.omasom.com/node_modules/.bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/matt.mcelwee/Library/Caches/Yarn/v6/npm-ms-2.1.2-d09d1f357b443f493382a8eb3ccd183872ae6009-integrity/node_modules/ms/license.md' -> '/Users/matt.mcelwee/repos/webinar.omasom.com/node_modules/knex/node_modules/ms/license.md'
+
+npm manifest: 
+  {
+    "name": "webinar.omasom.com",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "build": "node build.js",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node dist/index.js",
+      "prestart": "node build.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "better-sqlite3": "^9.2.2",
+      "body-parser": "^1.20.2",
+      "compression": "^1.7.4",
+      "ejs": "^3.1.9",
+      "knex": "^3.1.0",
+      "polka": "^0.5.2",
+      "sirv": "^2.0.4"
+    },
+    "devDependencies": {
+      "@types/body-parser": "^1.19.5",
+      "@types/compression": "^1.7.5",
+      "@types/node": "^20.10.5",
+      "esbuild": "^0.19.10",
+      "husky": "^8.0.3",
+      "lint-staged": "^15.2.0",
+      "prettier": "^3.1.1"
+    },
+    "type": "module"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

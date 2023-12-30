@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node build.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index.js",
+    "start": "node -r dotenv/config dist/index.js",
     "prestart": "node build.js"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
     "better-sqlite3": "^9.2.2",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "knex": "^3.1.0",
     "polka": "^0.5.2",
