@@ -48,7 +48,7 @@ const uploadImage = async (file, folder) => {
       payload.image = await uploadImage(payload.image, folder);
     }
 
-    const id = await fetch(e.target.action, {
+    const { shortcode } = await fetch(e.target.action, {
       method: e.target.method,
       headers: {
         "Content-Type": "application/json",
@@ -57,5 +57,6 @@ const uploadImage = async (file, folder) => {
     })
       .then((r) => r.json())
       .then((r) => console.log(r));
+    window.location.href = `/admin/webinars/${shortcode}`;
   });
 })();

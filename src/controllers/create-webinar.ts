@@ -24,6 +24,8 @@ export const createWebinar = async (body: CreateWebinarInput, ctx: Context) => {
       created_at: ctx.db.fn.now(),
       updated_at: ctx.db.fn.now(),
     },
-    ["id"],
+    ["id", "shortcode"],
   );
+
+  return shortcode;
 };

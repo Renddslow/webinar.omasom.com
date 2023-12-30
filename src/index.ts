@@ -41,8 +41,8 @@ app
     res.end(view);
   })
   .post("/admin/webinars/new", async (req, res) => {
-    await createWebinar(req.body, req.context);
-    res.json({ ok: true });
+    const shortcode = await createWebinar(req.body, req.context);
+    res.json({ ok: true, shortcode });
   })
   .get("/admin/webinars/:id", (req, res) => {})
   .get("/admin/utils/upload-key", (req, res) => {
