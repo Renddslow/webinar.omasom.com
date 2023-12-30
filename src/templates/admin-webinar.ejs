@@ -5,6 +5,7 @@
         <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
         <script>
             const css = (s) => {
                 const sheet = new CSSStyleSheet();
@@ -81,6 +82,46 @@
                 margin-left: auto;
                 display: block;
             }
+
+            * {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+                padding: 0;
+                margin: 0;
+            }
+
+            .form-control {
+                display: grid;
+                grid-template-columns: minmax(0, 150px) 1fr;
+                grid-gap: 42px;
+                align-items: start;
+            }
+
+            .form-control .label {
+                display: grid;
+                grid-gap: 12px;
+                width: 100%;
+            }
+
+            .label label {
+                font-weight: 700;
+                font-size: 14px;
+            }
+
+            .label p {
+                font-weight: 400;
+                font-size: 12px;
+                color: #a1a6b2;
+            }
+
+            .form-control input,
+            .form-control textarea {
+                padding: 12px;
+                border-radius: 4px;
+                border: 1px solid #8e9094;
+                background: #fdfdfd;
+                font-size: 16px;
+            }
         </style>
     </head>
     <body>
@@ -95,7 +136,7 @@
                                 <label for="title">Title</label>
                                 <p>The title of the session which will be presented on the landing page.</p>
                             </div>
-                            <input type="text" name="title" id="title" value="<%= values.title %>">
+                            <input required type="text" name="title" id="title" value="<%= values.title %>">
                         </div>
                     </div>
                     <div class="row">
@@ -104,7 +145,7 @@
                                 <label for="description">Description</label>
                                 <p>A strong description of the session which will be presented on the landing page and social media.</p>
                             </div>
-                            <textarea rows="6" name="description" id="description"><%= values.description %></textarea>
+                            <textarea required rows="6" name="description" id="description"><%= values.description %></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -113,7 +154,7 @@
                                 <label for="meeting-link">Meeting Link</label>
                                 <p>A Zoom or Google Meet link that will host the webinar.</p>
                             </div>
-                            <input type="text" name="meeting-link" id="meeting-link" value="<%= values.meeting_link %>">
+                            <input required type="text" name="meeting_link" id="meeting-link" value="<%= values.meeting_link %>">
                         </div>
                     </div>
                     <div class="row">
@@ -122,7 +163,16 @@
                                 <label for="start-time">Start Time</label>
                                 <p>The start date and time of the event.</p>
                             </div>
-                            <input type="text" name="start-time" id="start-time" value="<%= values.starts_at %>">
+                            <input required type="datetime-local" name="starts_at" id="start-time" value="<%= values.starts_at %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-control">
+                            <div class="label">
+                                <label for="image">Image</label>
+                                <p>The image that will be displayed on the landing page and social media.</p>
+                            </div>
+                            <input required type="file" name="image" id="image" value="<%= values.image %>">
                         </div>
                     </div>
                 </div>
@@ -135,5 +185,14 @@
             </form>
         </section>
     </body>
+    <script>
+        (() => {
+            window.imageKit = new ImageKit({
+                publicKey: "public_MU/d1ZVlcTJ5D3wPWo3NE1LcDbU=",
+                urlEndpoint: "https://ik.imagekit.io/omasom",
+                authenticationEndpoint: "http://www.yourserver.com/auth",
+            });
+        })();
+    </script>
     <script src="/handle-form.js"></script>
 </html>

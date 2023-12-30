@@ -1,5 +1,14 @@
 <aside>
-    <nav></nav>
+    <h2>OSM Webinars Admin</h2>
+    <nav>
+        <ul>
+            <li><a href="/admin">Dashboard</a></li>
+            <li><a href="/admin/webinars">Webinars</a></li>
+            <li><a href="/admin/presenters">Presenters</a></li>
+            <li><a href="/admin/attendees">Attendees</a></li>
+            <li><a href="/admin/users">Admin Users</a></li>
+        </ul>
+    </nav>
 </aside>
 <script>
     (() => {
@@ -8,6 +17,43 @@
             width: 100%;
             background: #fff;
             border-right: 1px solid #ddd;
+            padding: 24px 12px 24px;
+          }
+
+          aside nav ul {
+            list-style: none;
+            margin: 48px 0;
+            padding: 0;
+            display: grid;
+            grid-gap: 12px;
+          }
+
+          aside nav ul li a {
+            text-decoration: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+            color: #222;
+            background: #fff0;
+            border-radius: 4px;
+          }
+
+          aside nav ul li a:hover {
+            background: linear-gradient(270deg, #62aad2, #6b4fbb);;
+            color: #fff;
+            transition: background 0.2s ease-in-out;
+          }
+
+          aside h2 {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            -webkit-text-fill-color: #0000;
+            background: linear-gradient(270deg, #62aad2, #6b4fbb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: #6b4fbb;
           }
         `)
     })();
