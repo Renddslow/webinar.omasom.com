@@ -7,4 +7,5 @@ export type Context = {
 export type WebinarDatabaseResponse = {
   id: number;
   title: string;
+  starts_at: string;
 };

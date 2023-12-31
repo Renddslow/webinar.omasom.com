@@ -11,7 +11,7 @@ const uploadImage = async (file, folder) => {
   ).then((r) => r.json());
   const [ext] = file.name.split(".").slice(-1);
 
-  await new Promise((resolve) => {
+  return new Promise((resolve) => {
     window.imageKit.upload(
       {
         file,
@@ -27,7 +27,6 @@ const uploadImage = async (file, folder) => {
       },
     );
   });
-  return `/${folder}/webinar_header.${ext}`;
 };
 
 (() => {
@@ -38,6 +37,13 @@ const uploadImage = async (file, folder) => {
       acc[key] = form.get(key);
       try {
         const date = new Date(acc[key]);
+        if (key.startsWith("handout_")) {
+          acc.handouts = acc.handouts || [];
+          acc.handouts.push({
+            type: key.replace("handout_", ""),
+            url: acc[key],
+          });
+        }
         acc[key] = date instanceof Date ? date.toISOString() : acc[key];
       } catch (e) {}
       return acc;
@@ -45,7 +51,8 @@ const uploadImage = async (file, folder) => {
 
     if (payload.image && payload.image instanceof File) {
       const folder = getFolder(payload.title, payload.image, payload.starts_at);
-      payload.image = await uploadImage(payload.image, folder);
+      const image = await uploadImage(payload.image, folder);
+      payload.image = image.filePath;
     }
 
     const { shortcode } = await fetch(e.target.action, {
@@ -54,9 +61,7 @@ const uploadImage = async (file, folder) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
-    })
-      .then((r) => r.json())
-      .then((r) => console.log(r));
+    }).then((r) => r.json());
     window.location.href = `/admin/webinars/${shortcode}`;
   });
 })();

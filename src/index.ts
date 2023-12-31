@@ -9,6 +9,7 @@ import { getWebinar } from "./controllers/get-webinar";
 import { notFound } from "./middleware/not-found";
 import { createWebinarView } from "./views/create-webinar";
 import { createWebinar } from "./controllers/create-webinar";
+import { updateWebinarView } from "./views/update-webinar";
 
 const PORT = process.env.PORT || 3000;
 const IMAGE_KIT_KEY = process.env.IMAGE_KIT_KEY || "";
@@ -16,7 +17,6 @@ const IMAGE_KIT_KEY = process.env.IMAGE_KIT_KEY || "";
 const app = polka().use(
   (req, res, next) => {
     req.context = {};
-    res.setHeader("Content-Type", "text/html");
     res.json = <T>(body: T | Record<string, unknown>, status = 200) => {
       res.setHeader("Content-Type", "application/json");
       res.statusCode = status;
@@ -44,7 +44,10 @@ app
     const shortcode = await createWebinar(req.body, req.context);
     res.json({ ok: true, shortcode });
   })
-  .get("/admin/webinars/:id", (req, res) => {})
+  .get("/admin/webinars/:id", async (req, res) => {
+    const view = await updateWebinarView(req.params.id, req.context);
+    res.end(view);
+  })
   .get("/admin/utils/upload-key", (req, res) => {
     const token = crypto.randomUUID();
     const expire = Date.now() / 1000 + 60 * 5;
@@ -62,8 +65,7 @@ app
 // Public
 app
   .get("/w/:id", async (req, res) => {
-    console.log(req.params);
-    const page = await getWebinar(req.params.id, req.context);
+    const page = await getWebinar(req.params.id, "signup", req.context);
     if (!page) {
       return res.notFound();
     }

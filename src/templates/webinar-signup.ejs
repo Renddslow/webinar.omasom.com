@@ -4,47 +4,101 @@
         <title><%= title %> | Omaha School of Ministry</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/main.css?v=122" type="text/css">
+        <script src="https://kit.fontawesome.com/eaff6932f9.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <%- header %>
         <section>
-            <h1><%= title %></h1>
-            <p><%= description %></p>
+            <div class="header">
+                <div class="title">
+                    <p><%= startTime %></p>
+                    <h1><%= title %></h1>
+                </div>
+                <p><%= description %></p>
+            </div>
             <form>
                 <h2>Join the webinar.</h2>
-                <div class="row">
-                    <div class="form-control">
-                        <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" name="first-name" required/>
-                    </div>
-                    <div class="form-control">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" name="last-name" required/>
-                    </div>
+                <div class="form-control">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" name="first-name" required/>
                 </div>
-                <div class="row">
-                    <div class="form-control">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required/>
-                    </div>
-                    <div class="form-control">
-                        <label for="grade">Current Grade</label>
-                        <select id="grade">
-                            <option>9th Grade</option>
-                            <option>10th Grade</option>
-                            <option>11th Grade</option>
-                            <option>12th Grade</option>
-                            <option>High School Graduate</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
+                <div class="form-control">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" required/>
+                </div>
+                <div class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required/>
+                </div>
+                <div class="form-control">
+                    <label for="grade">Current Grade</label>
+                    <select id="grade">
+                        <option>9th Grade</option>
+                        <option>10th Grade</option>
+                        <option>11th Grade</option>
+                        <option>12th Grade</option>
+                        <option>High School Graduate</option>
+                        <option>Other</option>
+                    </select>
                 </div>
                 <div class="checkbox-control">
-                    <input type="radio" id="send-more"/>
+                    <input type="checkbox" id="send-more"/>
                     <label for="send-more">I would like to receive emails about Omaha School of Ministry</label>
                 </div>
                 <button type="submit">Register for this event</button>
             </form>
         </section>
+        <aside>
+            <div class="share">
+                <h2>Share</h2>
+                <div class="social-row">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= url %>" target="_blank">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=<%= url %>&text=Free Online Webinar '<%= title %>'" target="_blank">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= url.replace(/^https:\/\//, '') %>" target="_blank">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hosts">
+                <div>
+                    <h2>Presenter<% if (presenters.length > 1) { %>s<% } %></h2>
+                    <div class="people-grid">
+                        <% for (const presenter of presenters) { %>
+                            <div class="person">
+                                <img src="<%= presenter.image %>" alt="<%= presenter.name %>"/>
+                                <div>
+                                    <p><%= presenter.name %></p>
+                                    <p><%= presenter.title %></p>
+                                    <p><%= presenter.org %></p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div>
+                    <h2>Hosted By</h2>
+                    <div class="people-grid">
+                        <% for (const host of hosts) { %>
+                            <div class="person">
+                                <img src="<%= host.image %>" alt="<%= host.name %>"/>
+                                <div>
+                                    <p><%= host.name %></p>
+                                    <p><%= host.title %></p>
+                                    <p><%= host.org %></p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="guests">
+                <p><%= signups %> attendees</p>
+            </div>
+        </aside>
     </body>
 </html>

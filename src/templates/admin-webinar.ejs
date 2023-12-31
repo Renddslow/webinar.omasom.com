@@ -122,6 +122,10 @@
                 background: #fdfdfd;
                 font-size: 16px;
             }
+
+            form h2 {
+                margin: 12px 0;
+            }
         </style>
     </head>
     <body>
@@ -173,11 +177,23 @@
                                 <p>The image that will be displayed on the landing page and social media.</p>
                             </div>
                             <input required type="file" name="image" id="image" value="<%= values.image %>">
+                            <img src="" alt="" data-src="<%= values.image %>" />
                         </div>
                     </div>
                 </div>
                 <% if (updateId !== 'new') { %>
                     <h2>Handouts</h2>
+                    <div class="card">
+                        <div class="row">
+                            <div class="form-control">
+                                <div class="label">
+                                    <label for="class-notes">Class Notes</label>
+                                    <p>The primary notes from the session.</p>
+                                </div>
+                                <input required type="text" name="handout_class_notes" id="class-notes" value="<%= values.handouts?.find((t) => t.type === 'class_notes') || '' %>">
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
                 <footer>
                     <button type="submit">Save</button>
@@ -192,6 +208,18 @@
                 urlEndpoint: "https://ik.imagekit.io/omasom",
                 authenticationEndpoint: "/admin/utils/upload-key",
             });
+            const img = document.querySelector('img');
+            if (img.dataset.src) {
+                const url = window.imageKit.url({
+                    path: img.dataset.src,
+                    transformation: [{
+                        height: 200,
+                        width: 200,
+                    }],
+                });
+                console.log(url);
+                img.src = url;
+            }
         })();
     </script>
     <script src="/handle-form.js"></script>
