@@ -6,6 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/main.css?v=122" type="text/css">
         <script src="https://kit.fontawesome.com/eaff6932f9.js" crossorigin="anonymous"></script>
+        <link rel="canonical" href="<%= url %>">
+        <meta name="title" content="<%= title %>" />
+        <meta name="description" content="<%= description %>" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="<%= url %>" />
+        <meta property="og:title" content="<%= title %>" />
+        <meta property="og:description" content="<%= description %>" />
+        <meta property="og:image" content="<%= image %>" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="<%= url %>" />
+        <meta property="twitter:title" content="<%= title %>" />
+        <meta property="twitter:description" content="<%= description %>" />
+        <meta property="twitter:image" content="<%= image %>" />
     </head>
     <body>
         <%- header %>
@@ -100,5 +115,48 @@
                 <p><%= signups %> attendees</p>
             </div>
         </aside>
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Event",
+              "name": "<%= title %>",
+              "description": "<%= description %>",
+              "eventAttendanceMode": "online",
+              "inLanguage": "en-US",
+              "image": "<%= image %>",
+              "location": {
+                "@context": "https://schema.org",
+                "@type": "VirtualLocation",
+                "url": "<%= url %>/meet"
+              },
+              "organizer": {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Omaha School of Ministry",
+                "url": "https://osom.com",
+                "address": {
+                  "@context": "https://schema.org",
+                  "@type": "PostalAddress",
+                  "addressCountry": "USA",
+                  "addressRegion": "Nebraska",
+                  "addressLocality": "Omaha",
+                  "postalCode": "68116",
+                  "streetAddress": "4801 North 144th Street"
+                }
+              },
+              "performers": [
+                <% for (const presenter of presenters) { %>
+                   {
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "name": "<%= presenter.name %>",
+                      "image": "<%= presenter.image %>"
+                    }
+                <% } %>
+              ],
+              "startDate": "<%= new Date(starts_at).toISOString() %>",
+              "url": "<%= url %>"
+            }
+        </script>
     </body>
 </html>
