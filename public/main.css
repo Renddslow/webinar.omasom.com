@@ -230,6 +230,7 @@ aside .share h2 {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 8px;
+  max-width: 500px;
 }
 
 .handout-list a {
