@@ -40,6 +40,10 @@ form {
 
 .title h1 {
   font-size: 48px;
+}
+
+.title h1,
+.countdown {
   font-weight: 800;
   -webkit-text-fill-color: #0000;
   background: linear-gradient(249deg, #9dffb1 13.76%, #77b9ff 87.52%);
@@ -65,7 +69,8 @@ aside {
   position: relative;
 }
 
-.header > p {
+.header > p,
+.description {
   white-space: pre-wrap;
   font-size: 18px;
   line-height: 1.7;
@@ -151,6 +156,8 @@ aside .hosts {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 96px;
+  position: sticky;
+  top: 0;
 }
 
 aside .hosts h2 {
@@ -187,6 +194,68 @@ aside .share h2 {
 .social-row a {
   color: #fff;
   text-decoration: none;
+}
+
+.meet {
+  margin: 32px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 24px;
+  padding-top: 32px;
+}
+
+.meet a {
+  background: #fff;
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  width: max-content;
+  align-items: center;
+  text-decoration: none;
+  grid-gap: 12px;
+}
+
+.meet a span {
+  font-size: 18px;
+}
+
+.handouts {
+  margin-top: 48px;
+}
+
+.handout-list {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 8px;
+}
+
+.handout-list a {
+  display: grid;
+  width: 100%;
+  padding: 12px 24px;
+  background: #fff;
+  border-radius: 8px;
+  grid-template-columns: minmax(0, max-content) 1fr;
+  grid-gap: 24px;
+  align-items: center;
+  text-decoration: none;
+  color: #0d0d0d;
+}
+
+.handout-list a p {
+  padding-left: 12px;
+  border-left: 1px solid #ccc;
+  font-size: 14px;
+  display: grid;
+  grid-gap: 4px;
+}
+
+.handout-list a p span:first-child {
+  font-weight: 700;
+  font-size: 16px;
 }
 
 @media screen and (max-width: 57em) {

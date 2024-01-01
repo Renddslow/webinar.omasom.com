@@ -71,8 +71,12 @@ app
     }
     res.end(page);
   })
-  .get("/w/:id/meet", (req, res) => {
-    res.end("meet");
+  .get("/w/:id/meet", async (req, res) => {
+    const page = await getWebinar(req.params.id, "meet", req.context);
+    if (!page) {
+      return res.notFound();
+    }
+    res.end(page);
   });
 // app.get("*", (req, res) => {
 //   console.log("404");

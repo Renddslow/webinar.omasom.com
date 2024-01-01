@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title><%= title %> | Omaha School of Ministry</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/main.css?v=122" type="text/css" />
+    <script
+      src="https://kit.fontawesome.com/eaff6932f9.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="canonical" href="<%= url %>" />
+    <meta name="title" content="<%= title %>" />
+    <meta name="description" content="<%= description %>" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= url %>" />
+    <meta property="og:title" content="<%= title %>" />
+    <meta property="og:description" content="<%= description %>" />
+    <meta property="og:image" content="<%= image %>" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="<%= url %>" />
+    <meta property="twitter:title" content="<%= title %>" />
+    <meta property="twitter:description" content="<%= description %>" />
+    <meta property="twitter:image" content="<%= image %>" />
+  </head>
+  <body>
+    <%- header %>
+    <section>
+      <div class="header">
+        <div class="title">
+          <p><%= startTime %></p>
+          <h1><%= title %></h1>
+        </div>
+      </div>
+      <div class="meet">
+        <p>The webinar begins in <span class="countdown"></span></p>
+        <a href="<%= meeting_link %>" target="_blank">
+          <i class="fa-solid fa-video"></i>
+          <span>Join the Meeting</span>
+        </a>
+      </div>
+      <p class="description"><%= description %></p>
+      <div class="handouts">
+        <h2>Handouts</h2>
+        <div class="handout-list">
+          <% for (const handout of handouts) { %>
+            <a href="<%= handout.file %>?utm_source=omasom.com" target="_blank">
+              <i class="fa <%= handout.thumbnail %>"></i>
+              <p>
+                <span><%= handout.title %></span>
+                <span><%= handout.description %></span>
+              </p>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </section>
+    <aside>
+      <div class="hosts">
+        <div>
+          <h2>Presenter<% if (presenters.length > 1) { %>s<% } %></h2>
+          <div class="people-grid">
+            <% for (const presenter of presenters) { %>
+            <div class="person">
+              <img src="<%= presenter.image %>" alt="<%= presenter.name %>" />
+              <div>
+                <p><%= presenter.name %></p>
+                <p><%= presenter.title %></p>
+                <p><%= presenter.org %></p>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <div>
+          <h2>Hosted By</h2>
+          <div class="people-grid">
+            <% for (const host of hosts) { %>
+            <div class="person">
+              <img src="<%= host.image %>" alt="<%= host.name %>" />
+              <div>
+                <p><%= host.name %></p>
+                <p><%= host.title %></p>
+                <p><%= host.org %></p>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="guests">
+        <p><%= signups %> attendees</p>
+      </div>
+    </aside>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "<%= title %>",
+                "description": "<%= description %>",
+                "eventAttendanceMode": "online",
+                "inLanguage": "en-US",
+                "image": "<%= image %>",
+                "location": {
+                  "@context": "https://schema.org",
+                  "@type": "VirtualLocation",
+                  "url": "<%= url %>/meet"
+                },
+                "organizer": {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  "name": "Omaha School of Ministry",
+                  "url": "https://osom.com",
+                  "address": {
+                    "@context": "https://schema.org",
+                    "@type": "PostalAddress",
+                    "addressCountry": "USA",
+                    "addressRegion": "Nebraska",
+                    "addressLocality": "Omaha",
+                    "postalCode": "68116",
+                    "streetAddress": "4801 North 144th Street"
+                  }
+                },
+                "performers": [
+      <% for (const presenter of presenters) { %>
+          {
+           "@context": "https://schema.org",
+           "@type": "Person",
+           "name": "<%= presenter.name %>",
+                        "image": "<%= presenter.image %>"
+                      }
+      <% } %>
+      ],
+      "startDate": "<%= new Date(starts_at).toISOString() %>",
+                "url": "<%= url %>"
+              }
+    </script>
+    <script>
+      (() => {
+        const countdown = document.querySelector(".countdown");
+
+        const handleCountdown = () => {
+          const startsAt = new Date("<%= starts_at %>");
+          const now = new Date();
+          const diff =  startsAt - now;
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / 1000 / 60) % 60);
+          const seconds = Math.floor((diff / 1000) % 60);
+          const message = [];
+          if (days > 0) {
+            message.push(`${days} day${days > 1 ? "s" : ""}`);
+          }
+          if (hours > 0) {
+              message.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+          }
+          if (minutes > 0) {
+              message.push(`${minutes} minute${minutes > 1 ? "s" : ""}`);
+          }
+          if (seconds > 0) {
+              message.push(`${seconds} second${seconds > 1 ? "s" : ""}`);
+          }
+          if (message.length === 0) {
+              message.push("now");
+          }
+          countdown.textContent = message.join(", ");
+          window.requestAnimationFrame(handleCountdown);
+        };
+
+        window.requestAnimationFrame(handleCountdown);
+      })();
+    </script>
+  </body>
+</html>

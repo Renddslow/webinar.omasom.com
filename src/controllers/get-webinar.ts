@@ -29,10 +29,17 @@ export const getWebinar = async (
     .leftJoin("people", "webinar_people.person_id", "people.id")
     .where("webinar_people.webinar_id", webinar.id);
 
+  const handouts =
+    (await ctx
+      .db("webinar_handouts")
+      .where("webinar_id", webinar.id)
+      .orderBy("order", "asc")) || [];
+
   const data = {
     ...webinar,
     presenters: people.filter((p) => p.role === 1),
     hosts: people.filter((p) => p.role === 2),
+    handouts,
     signups: 12,
     image: `https://ik.imagekit.io/omasom/tr:h-400,w-550,q-100${webinar.image}`,
     startTime,
