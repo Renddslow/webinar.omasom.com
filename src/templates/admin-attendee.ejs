@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title><%= metaTitle %> Attendee | Omaha School of Ministry Webinars</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+        <link rel="stylesheet" href="/admin.css">
+        <script>
+            const css = (s) => {
+                const sheet = new CSSStyleSheet();
+                s.map((rule) => rule.split("\n\n"))
+                    .flat()
+                    .forEach((rule) => sheet.insertRule(rule));
+                return sheet;
+            };
+        </script>
+    </head>
+    <body>
+    <%- header %>
+    <section>
+        <h1><%= metaTitle %> Attendee</h1>
+        <form action="/admin/attendees/<%= updateId %>" method="post">
+            <div class="card">
+                <div class="row">
+                    <div class="form-control">
+                        <div class="label">
+                            <label for="first_name">First Name</label>
+                            <p>The first name of a webinar attendee</p>
+                        </div>
+                        <input required type="text" name="first_name" id="first_name" value="<%= values.first_name %>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-control">
+                        <div class="label">
+                            <label for="last_name">First Name</label>
+                            <p>The last name of a webinar attendee</p>
+                        </div>
+                        <input required type="text" name="last_name" id="last_name" value="<%= values.last_name %>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-control">
+                        <div class="label">
+                            <label for="email">Email Address</label>
+                            <p>The primary email address of a webinar attendee</p>
+                        </div>
+                        <input required type="email" name="email" id="email" value="<%= values.email %>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-control">
+                        <div class="label">
+                            <label for="grade">Grade</label>
+                            <p>The primary email address of a webinar attendee</p>
+                        </div>
+                        <select required name="grade" id="grade">
+                            <option selected="<%= values.grade === '9th Grade' %>">9th Grade</option>
+                            <option selected="<%= values.grade === '10th Grade' %>">10th Grade</option>
+                            <option selected="<%= values.grade === '11th Grade' %>">11th Grade</option>
+                            <option selected="<%= values.grade === '12th Grade' %>">12th Grade</option>
+                            <option selected="<%= values.grade === 'High School Graduate' %>">High School Graduate</option>
+                            <option selected="<%= values.grade === 'Other' %>">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <% if (updateId !== 'new') { %>
+                <header>
+                    <h2>Webinars</h2>
+                    <button>Add Webinar</button>
+                </header>
+                <div class="card">
+                    <% for (const webinar of values.webinars) { %>
+                    <% } %>
+                </div>
+            <% } %>
+            <footer>
+                <button type="submit">Save</button>
+            </footer>
+        </form>
+    </section>
+    </body>
+    <script>
+        (() => {
+            window.imageKit = new ImageKit({
+                publicKey: "public_MU/d1ZVlcTJ5D3wPWo3NE1LcDbU=",
+                urlEndpoint: "https://ik.imagekit.io/omasom",
+                authenticationEndpoint: "/admin/utils/upload-key",
+            });
+            const img = document.querySelector('img');
+            if (img.dataset.src) {
+                const url = window.imageKit.url({
+                    path: img.dataset.src,
+                    transformation: [{
+                        height: 200,
+                        width: 200,
+                    }],
+                });
+                console.log(url);
+                img.src = url;
+            }
+        })();
+    </script>
+    <script src="/handle-form.js"></script>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Manage Presenters | Omaha School of Ministry Webinars</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+        <link rel="stylesheet" href="/admin.css">
+        <script>
+            const css = (s) => {
+                const sheet = new CSSStyleSheet();
+                s.map((rule) => rule.split("\n\n"))
+                    .flat()
+                    .forEach((rule) => sheet.insertRule(rule));
+                return sheet;
+            };
+        </script>
+    </head>
+    <body>
+    <%- header %>
+    <section>
+        <header>
+            <h1>Manage Attendees</h1>
+            <a href="/admin/attendees/new">Add Attendee</a>
+        </header>
+        <div class="card">
+            <table>
+                <% for (const attendee of attendees.sort((a, b) => `${a.last_name}, ${a.first_name}`.localeCompare(`${b.last_name}, ${b.first_name}`))) { %>
+                    <tr>
+                        <td style="width: 200px"><a href="/admin/attendees/<%= attendee.id %>"><%= attendee.first_name %> <%= attendee.last_name %></a></td>
+                        <td><%= attendee.grade %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+    </section>
+    </body>
+</html>

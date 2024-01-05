@@ -10,6 +10,12 @@ import { notFound } from "./middleware/not-found";
 import { createWebinarView } from "./views/create-webinar";
 import { createWebinar } from "./controllers/create-webinar";
 import { updateWebinarView } from "./views/update-webinar";
+import { listWebinarsView } from "./views/list-webinars";
+import { listPresentersView } from "./views/list-presenters";
+import { listAttendeesView } from "./views/list-attendees";
+import { createAttendeeView } from "./views/create-attendee";
+import { createAttendee } from "./controllers/create-attendee";
+import { updateAttendeeView } from "./views/update-attendee";
 
 const PORT = process.env.PORT || 3000;
 const IMAGE_KIT_KEY = process.env.IMAGE_KIT_KEY || "";
@@ -35,7 +41,13 @@ const app = polka().use(
 // Admin
 app
   .get("/admin", (req, res) => {})
-  .get("/admin/webinars", (req, res) => {})
+  /**
+   * Webinars
+   */
+  .get("/admin/webinars", async (req, res) => {
+    const view = await listWebinarsView(req.context);
+    res.end(view);
+  })
   .get("/admin/webinars/new", async (_, res) => {
     const view = await createWebinarView();
     res.end(view);
@@ -48,7 +60,39 @@ app
     const view = await updateWebinarView(req.params.id, req.context);
     res.end(view);
   })
-  .get("/admin/utils/upload-key", (req, res) => {
+  /**
+   * Presenters
+   */
+  .get("/admin/presenters", async (req, res) => {
+    const view = await listPresentersView(req.context);
+    res.end(view);
+  })
+  .get("/admin/presenters/new", async (req, res) => {})
+  .get("/admin/presenters/:id", async (req, res) => {})
+  /**
+   * Attendees
+   */
+  .get("/admin/attendees", async (req, res) => {
+    const view = await listAttendeesView(req.context);
+    res.end(view);
+  })
+  .get("/admin/attendees/new", async (_, res) => {
+    const view = await createAttendeeView();
+    res.end(view);
+  })
+  .post("/admin/attendees/new", async (req, res) => {
+    const attendee = await createAttendee(req.body, req.context);
+    res.json({ ok: true, ...attendee[0] });
+  })
+  .get("/admin/attendees/:id", async (req, res) => {
+    const view = await updateAttendeeView(req.params.id, req.context);
+    res.end(view);
+  })
+  .post("/admin/attendees/:id", async (req, res) => {})
+  /**
+   * Utils
+   */
+  .get("/admin/utils/upload-key", (_, res) => {
     const token = crypto.randomUUID();
     const expire = Date.now() / 1000 + 60 * 5;
     const signature = crypto
@@ -78,10 +122,6 @@ app
     }
     res.end(page);
   });
-// app.get("*", (req, res) => {
-//   console.log("404");
-//   return res.notFound();
-// });
 
 app.listen(PORT, () => {
   console.log(`Listening on port http://localhost:${PORT}`);

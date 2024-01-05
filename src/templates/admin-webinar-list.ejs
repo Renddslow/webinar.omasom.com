@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Manage Webinars | Omaha School of Ministry Webinars</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+        <link rel="stylesheet" href="/admin.css">
+        <script>
+            const css = (s) => {
+                const sheet = new CSSStyleSheet();
+                s.map((rule) => rule.split("\n\n"))
+                    .flat()
+                    .forEach((rule) => sheet.insertRule(rule));
+                return sheet;
+            };
+        </script>
+    </head>
+    <body>
+        <%- header %>
+        <section>
+            <h1>Manage Webinars</h1>
+            <h2>Upcoming Webinars</h2>
+            <div class="card">
+                <table>
+                <% for (const webinar of webinars.sort((a, b) => a.starts_at.localeCompare(b.starts_at))) { %>
+                    <tr>
+                        <td style="width: 350px"><a href="/admin/webinars/<%= webinar.shortcode %>"><%= webinar.title %></a></td>
+                        <td><%= webinar.startTime %></td>
+                    </tr>
+                <% } %>
+                </table>
+            </div>
+            <h2>Past Webinars</h2>
+            <div class="card">
+                <table>
+                    <% for (const webinar of pastWebinars.sort((a, b) => a.starts_at.localeCompare(b.starts_at))) { %>
+                        <tr>
+                            <td style="width: 350px"><a href="/admin/webinars/<%= webinar.shortcode %>"><%= webinar.title %></a></td>
+                            <td><%= webinar.startTime %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

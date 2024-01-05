@@ -55,13 +55,18 @@ const uploadImage = async (file, folder) => {
       payload.image = image.filePath;
     }
 
-    const { shortcode } = await fetch(e.target.action, {
+    const { shortcode, id } = await fetch(e.target.action, {
       method: e.target.method,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     }).then((r) => r.json());
-    window.location.href = `/admin/webinars/${shortcode}`;
+    if (window.location.href.endsWith("new")) {
+      window.location.href = window.location.href.replace(
+        /new$/,
+        shortcode || id,
+      );
+    }
   });
 })();
