@@ -58,7 +58,7 @@ export function createEventSchema({
       name: presenter.name,
       image: presenter.image,
     })),
-    startDate: new Date(startsAt).toISOString(),
+    startDate: startsAt,
     url,
   };
 }
