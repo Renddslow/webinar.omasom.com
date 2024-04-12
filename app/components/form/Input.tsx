@@ -18,7 +18,7 @@ export const Input = ({
   return (
     <div className="FormControl">
       <label htmlFor={name}>{label}</label>
-      <input type={type} id={name} name={name} autoComplete="off" />
+      <input type={type} id={name} name={name} data-lpignore="true" />
     </div>
   );
 };
