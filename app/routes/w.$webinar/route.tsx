@@ -5,7 +5,10 @@ import type {
   ActionFunctionArgs,
   MetaArgs,
 } from "@remix-run/node";
-import { createSeoMetaData } from "~/utils/data";
+import {
+  createSeoMetaData,
+  createSEOSchemaForVirtualEvent,
+} from "~/utils/data";
 import type { Webinar } from "~/api/types";
 import { getWebinar } from "~/models/webinar.server";
 
@@ -35,6 +38,7 @@ export function meta({ data }: MetaArgs<typeof loader>) {
       image: data?.webinar.image,
       canonical: data?.webinar.url,
     }),
+    createSEOSchemaForVirtualEvent(data?.webinar!),
   ];
 }
 

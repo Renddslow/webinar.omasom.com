@@ -1,0 +1,11 @@
+form {
+    width: 100%;
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 12px;
+}
+
+form h2 {
+    margin-bottom: 12px;
+}

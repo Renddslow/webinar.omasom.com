@@ -1,4 +1,5 @@
-import { PageBody } from "~/components/page/PageBody";
+import { PageBody } from "./PageBody";
+import { PageSection } from "./PageSection";
 
 import "./Page.css";
 
@@ -11,3 +12,4 @@ export function Page({ children }: PageProps) {
 }
 
 Page.Body = PageBody;
+Page.Section = PageSection;

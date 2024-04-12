@@ -1,0 +1,27 @@
+.FormControl {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+}
+
+.FormControl input:not([type="checkbox"]),
+.FormControl select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    box-sizing: border-box;
+}
+
+.CheckboxControl {
+    margin: 12px 0;
+    display: grid;
+    grid-template-columns: minmax(0, max-content) 1fr;
+    align-items: start;
+    grid-gap: 12px;
+    line-height: 1.4;
+}
+
+.CheckboxControl input {
+    margin-top: 5px;
+}
