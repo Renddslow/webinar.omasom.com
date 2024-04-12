@@ -1,4 +1,5 @@
 export type Webinar = {
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -9,6 +10,14 @@ export type Webinar = {
   handouts: Handout[];
   signups: number;
   startTime: string;
+};
+
+export type Registration = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  grade: string;
+  emailConsent: boolean;
 };
 
 export type Person = {

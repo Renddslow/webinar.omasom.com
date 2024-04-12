@@ -4,9 +4,7 @@ interface SelectProps {
   id?: string;
   label: string;
   name: string;
-  value: string;
   options: string[];
-  onChange: (value: string) => void;
 }
 
 export const Select = ({ label, name, options }: SelectProps) => {

@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
-import { useLoaderData, useMatches } from "@remix-run/react";
+import { useCallback } from "react";
+import { useFetchers, useLoaderData } from "@remix-run/react";
 
 import type { loader } from "./route";
 import { Page } from "~/components/page/Page";
@@ -12,10 +12,15 @@ import { PeopleGrid } from "~/components/peopleGrid/PeopleGrid";
 import { Aside } from "~/components/aside/Aside";
 
 import "./WebinarDetails.css";
+import { Card } from "~/components/card/Card";
 
 export function WebinarDetails() {
   const data = useLoaderData<typeof loader>();
-  const matches = useMatches();
+  const fetchers = useFetchers();
+
+  const [formFetcher] = fetchers.filter(
+    (fetcher) => fetcher.key === "register"
+  );
 
   const renderForm = useCallback(() => {
     return (
@@ -53,10 +58,6 @@ export function WebinarDetails() {
             "High School Graduate",
             "Other",
           ]}
-          value=""
-          onChange={(e) => {
-            console.log(e);
-          }}
         />
         <Checkbox
           label="I would like to receive emails about Omaha School of Ministry"
@@ -101,7 +102,21 @@ export function WebinarDetails() {
         >
           {data?.webinar.title}
         </Page.SectionHeader>
-        <WebinarForm>{renderForm()}</WebinarForm>
+        {formFetcher?.state === "idle" ? (
+          <Card>
+            <Card.Title>Thank you!</Card.Title>
+            <Card.Body>
+              We are so excited to meet you.
+              <br />
+              We are praying that{" "}
+              <Card.Highlight>this event will help equip you</Card.Highlight> in
+              a small way for the ministry{" "}
+              <Card.Highlight>God has called you to</Card.Highlight>.
+            </Card.Body>
+          </Card>
+        ) : (
+          <WebinarForm fetcherKey="register">{renderForm()}</WebinarForm>
+        )}
       </Page.Section>
       {renderAside()}
     </div>

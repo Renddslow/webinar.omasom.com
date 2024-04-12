@@ -20,7 +20,7 @@
 
 .Webinar__guests {
     display: block;
-    position: absolute;
+    position: sticky;
     top: calc(100vh - 48px);
 }
 

@@ -10,7 +10,7 @@ import {
   createSEOSchemaForVirtualEvent,
 } from "~/utils/data";
 import type { Webinar } from "~/api/types";
-import { getWebinar } from "~/models/webinar.server";
+import { getWebinar, registerForWebinar } from "~/models/webinar.server";
 
 interface WebinarRouteLoaderData {
   webinar: Webinar;
@@ -28,6 +28,21 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return json<WebinarRouteLoaderData>({
     webinar,
   });
+}
+
+export async function action({ request, context, params }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const payload = {
+    firstName: formData.get("first-name")! as string,
+    lastName: formData.get("last-name")! as string,
+    email: formData.get("email")! as string,
+    grade: formData.get("grade")! as string,
+    emailConsent: formData.get("send-more") === "on",
+  };
+
+  await registerForWebinar(params.webinar!, payload);
+
+  return json({});
 }
 
 export function meta({ data }: MetaArgs<typeof loader>) {

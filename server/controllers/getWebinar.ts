@@ -31,14 +31,19 @@ export const getWebinar = async (
       .where("webinar_id", webinar.id)
       .orderBy("order", "asc")) || [];
 
+  const participants = await ctx
+    .db("webinar_participants")
+    .where("webinar_participants.webinar_id", webinar.shortcode);
+
   return {
+    id: webinar.shortcode,
     title: webinar.title,
     description: webinar.description,
     startsAt: webinar.starts_at,
     presenters: people.filter((p) => p.role === 1),
     hosts: people.filter((p) => p.role === 2),
     handouts,
-    signups: 12,
+    signups: participants.length,
     image: `https://ik.imagekit.io/omasom/tr:h-400,w-550,q-100${webinar.image}`,
     startTime,
     url: `https://webinar.omasom.com/w/${webinar.shortcode}`,

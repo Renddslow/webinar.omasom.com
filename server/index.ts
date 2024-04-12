@@ -9,6 +9,7 @@ import { installGlobals } from "@remix-run/node";
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
+import bodyParser from "body-parser";
 
 import { createRemixContext } from "./context";
 import { env } from "~/utils/helpers";
@@ -17,6 +18,7 @@ import type { ServerBuild } from "@remix-run/node";
 import { getWebinar } from "./controllers/getWebinar";
 import { setupDatabase } from "./middleware/setup-database";
 import type { RequestContext } from "./types";
+import { registerForWebinar } from "./controllers/registerForWebinar";
 
 installGlobals();
 
@@ -61,6 +63,7 @@ app.use(
   helmet({
     contentSecurityPolicy: false,
   }),
+  bodyParser.json(),
   setUpContext,
   await setupDatabase()
 );
@@ -79,6 +82,11 @@ app.use(getRootPath(), express.static("build/client", { maxAge: "1h" }));
 
 app.get("/api/webinar/:id", async (req, res) => {
   res.json(await getWebinar(req.params.id, req.context));
+});
+
+app.post("/api/webinar/:id/register", async (req, res) => {
+  await registerForWebinar(req.params.id, req.body, req.context);
+  res.json({});
 });
 
 // Handle SSR requests
