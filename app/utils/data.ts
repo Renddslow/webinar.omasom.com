@@ -1,6 +1,6 @@
 import type { MetaDescriptor } from "@remix-run/node";
 import { OSM_ORG_SCHEMA, SEO_TITLE_TEMPLATE } from "~/constants";
-import type { Presenter, Webinar } from "~/api/types";
+import type { Webinar } from "~/api/types";
 
 export function createSeoMetaData({
   title,

@@ -1,0 +1,37 @@
+.WebinarDetails {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.Webinar__hosts {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 96px;
+    position: sticky;
+    top: 0;
+
+}
+
+.Webinar__hosts h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.Webinar__guests {
+    display: block;
+    position: absolute;
+    top: calc(100vh - 48px);
+}
+
+@media screen and (max-width: 57em) {
+    .WebinarDetails {
+        grid-template-columns: 1fr;
+    }
+
+    .Webinar__guests {
+        position: relative;
+        top: 0;
+        margin-top: 96px;
+    }
+}

@@ -1,0 +1,39 @@
+.Aside {
+    background: #20222b;
+    padding: 96px 48px;
+    position: relative;
+}
+
+.Aside__share {
+    margin-bottom: 150px;
+}
+
+.Aside__share h2 {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.SocialRow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, max-content));
+    grid-gap: 24px;
+    font-size: 18px;
+    margin-top: 18px;
+    opacity: 0.88;
+    align-items: center;
+}
+
+.SocialRow a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.SocialRow a i {
+    font-size: 32px;
+}
+
+@media screen and (max-width: 57em) {
+    .Aside {
+        padding-bottom: 48px;
+    }
+}

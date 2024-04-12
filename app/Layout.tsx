@@ -27,6 +27,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </Page>
         <ScrollRestoration />
         <Scripts />
+        <script
+          src="https://unpkg.com/@phosphor-icons/web"
+          type="text/javascript"
+        />
       </body>
     </html>
   );

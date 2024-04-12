@@ -8,6 +8,10 @@ import { Select } from "~/components/form/Select";
 import { WebinarForm } from "~/components/form/WebinarForm";
 import { Checkbox } from "~/components/form/Checkbox";
 import { Button } from "~/components/button/Button";
+import { PeopleGrid } from "~/components/peopleGrid/PeopleGrid";
+import { Aside } from "~/components/aside/Aside";
+
+import "./WebinarDetails.css";
 
 export function WebinarDetails() {
   const data = useLoaderData<typeof loader>();
@@ -63,16 +67,43 @@ export function WebinarDetails() {
     );
   }, []);
 
+  const renderAside = useCallback(() => {
+    return (
+      <Aside
+        url={data.webinar.url}
+        title={`Join a free online webinar ('${data.webinar.title}')`}
+      >
+        <>
+          <div className="Webinar__hosts">
+            <div>
+              <h2>Presenter{data.webinar.presenters.length > 1 ? "s" : ""}</h2>
+              <PeopleGrid people={data.webinar.presenters} />
+            </div>
+            <div>
+              <h2>Hosted By</h2>
+              <PeopleGrid people={data.webinar.hosts} />
+            </div>
+          </div>
+          <div className="Webinar__guests">
+            {data.webinar.signups || 0} attendees registered
+          </div>
+        </>
+      </Aside>
+    );
+  }, [data]);
+
   return (
-    <Page.Section>
-      <div className="header">
-        <div className="title">
-          <p>{data?.webinar.startsAt}</p>
-          <h1>{data?.webinar.title}</h1>
-        </div>
-        <p>{data?.webinar.description}</p>
-      </div>
-      <WebinarForm>{renderForm()}</WebinarForm>
-    </Page.Section>
+    <div className="WebinarDetails">
+      <Page.Section>
+        <Page.SectionHeader
+          meta={data?.webinar.startTime}
+          subtitle={data?.webinar.description}
+        >
+          {data?.webinar.title}
+        </Page.SectionHeader>
+        <WebinarForm>{renderForm()}</WebinarForm>
+      </Page.Section>
+      {renderAside()}
+    </div>
   );
 }

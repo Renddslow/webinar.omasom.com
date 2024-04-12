@@ -4,6 +4,7 @@ form {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 12px;
+    margin-top: 48px;
 }
 
 form h2 {

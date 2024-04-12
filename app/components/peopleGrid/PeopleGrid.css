@@ -1,0 +1,24 @@
+.PeopleGrid__Person img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.PeopleGrid__Person {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    grid-gap: 8px;
+    align-items: center;
+}
+
+.PeopleGrid__Person > div p:first-child {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.PeopleGrid__Person > div p:not(:first-child) {
+    font-size: 14px;
+    color: #ddd;
+}

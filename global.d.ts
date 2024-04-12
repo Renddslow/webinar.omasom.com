@@ -3,6 +3,7 @@ interface EnvironmentVariables {
   HOST?: string;
   NODE_ENV?: string;
   PORT?: string;
+  BASE_API_URL: string;
 }
 
 interface Window {

@@ -14,6 +14,8 @@ export type Webinar = {
 export type Person = {
   name: string;
   image: string;
+  title: string;
+  org: string;
 };
 
 export type Handout = {

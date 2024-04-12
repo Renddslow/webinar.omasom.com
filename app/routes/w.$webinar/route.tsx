@@ -38,6 +38,7 @@ export function meta({ data }: MetaArgs<typeof loader>) {
       image: data?.webinar.image,
       canonical: data?.webinar.url,
     }),
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
     createSEOSchemaForVirtualEvent(data?.webinar!),
   ];
 }

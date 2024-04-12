@@ -7,3 +7,41 @@
     background: #1b1c24;
     min-height: 100vh;
 }
+
+.PageSectionHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 24px;
+}
+
+.PageSectionHeader > p {
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.PageSectionHeader__title {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+}
+
+.PageSectionHeader__title h1 {
+    font-size: 48px;
+    font-weight: 800;
+    -webkit-text-fill-color: #0000;
+    background: linear-gradient(249deg, #9dffb1 13.76%, #77b9ff 87.52%);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.PageSectionHeader__title p {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 57em) {
+    .PageSection {
+        padding: 32px;
+    }
+}
