@@ -3,7 +3,6 @@ import { env } from "~/utils/helpers";
 import { json } from "@remix-run/node";
 
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { getAssetUrl } from "~/utils/url";
 
 export interface RootLoaderData {
   /** Environment variables used at runtime */
@@ -21,10 +20,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
     locale: "en",
   });
-}
-
-export function links() {
-  return [{ rel: "stylesheet", href: getAssetUrl("/global.css") }];
 }
 
 export { Layout } from "./Layout";
