@@ -4,10 +4,22 @@ export type Webinar = {
   image: string;
   url: string;
   startsAt: string;
-  presenters: Presenter[];
+  presenters: Person[];
+  hosts: Person[];
+  handouts: Handout[];
+  signups: number;
+  startTime: string;
 };
 
-export type Presenter = {
+export type Person = {
   name: string;
   image: string;
+};
+
+export type Handout = {
+  title: string;
+  description: string;
+  thumbnail: string;
+  file: string;
+  order: number;
 };

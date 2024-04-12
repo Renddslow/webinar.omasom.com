@@ -7,12 +7,16 @@ import path from "node:path";
 import { createRequestHandler } from "@remix-run/express";
 import { installGlobals } from "@remix-run/node";
 import express from "express";
+import type { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 
 import { createRemixContext } from "./context";
 import { env } from "~/utils/helpers";
 
 import type { ServerBuild } from "@remix-run/node";
+import { getWebinar } from "./controllers/getWebinar";
+import { setupDatabase } from "./middleware/setup-database";
+import type { RequestContext } from "./types";
 
 installGlobals();
 
@@ -48,27 +52,34 @@ const remixHandler = createRequestHandler({
 
 const app = express();
 
-// Secure the app with helmet
+const setUpContext = (req: Request, _: Response, next: NextFunction) => {
+  req.context = {} as RequestContext;
+  next();
+};
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
-  })
+  }),
+  setUpContext,
+  await setupDatabase()
 );
 
 // Handle asset requests
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
-  // Vite fingerprints its assets so we can cache forever.
   app.use(
     getRootPath("/assets"),
     express.static("build/client/assets", { immutable: true, maxAge: "1y" })
   );
 }
 
-// Everything else (like favicon.ico) is cached for an hour. You may want to be
-// more aggressive with this caching.
 app.use(getRootPath(), express.static("build/client", { maxAge: "1h" }));
+
+app.get("/api/webinar/:id", async (req, res) => {
+  res.json(await getWebinar(req.params.id, req.context));
+});
 
 // Handle SSR requests
 app.all("*", remixHandler);

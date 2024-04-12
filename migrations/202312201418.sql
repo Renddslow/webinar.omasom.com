@@ -1,0 +1,1 @@
+ALTER TABLE `webinars` ADD COLUMN `image` varchar(255) NOT NULL;

@@ -1,12 +1,6 @@
 import type { Webinar } from "~/api/types";
+import { api } from "~/api/client";
 
-export const getWebinar = async (id: string): Promise<Webinar> => {
-  return {
-    title: "Hello",
-    description: "",
-    image: "",
-    url: "/",
-    presenters: [],
-    startsAt: "2021-01-01T00:00:00.000Z",
-  };
+export const getWebinar = async (id: string): Promise<Webinar | null> => {
+  return api.getWebinar(id);
 };
